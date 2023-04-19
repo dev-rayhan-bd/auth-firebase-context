@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProviders";
 
 const Login = () => {
-const {signIn} =useContext(AuthContext);
+const {signIn,signInWithGoogle} =useContext(AuthContext);
 
 const [error,setError] = useState('')
 const handleLogin=event=>{
@@ -23,7 +23,16 @@ const handleLogin=event=>{
       setError(error.message)
     })
 }
-
+const handleGoogleSignIn =()=>{
+signInWithGoogle()
+.then(result=>{
+  const loggedUser =result.user;
+  console.log(loggedUser);
+})
+.catch(error=>{
+  setError(error.message)
+})
+}
   return (
     <div className=" min-h-screen bg-base-200">
       <h1 className=" mb-12 text-5xl font-bold text-center">Login now!</h1>
@@ -68,6 +77,9 @@ const handleLogin=event=>{
           Didn't have account?Go to
           <button className="btn btn-link">Register</button>
         </Link>
+        <div>
+        <button onClick={handleGoogleSignIn} className="btn btn-primary">Google</button>
+        </div>
       </div>
       <p className="text-1xl font-bold text-red-700">{error}</p>
     </div>
